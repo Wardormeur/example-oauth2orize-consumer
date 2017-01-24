@@ -39,6 +39,8 @@
     done(null, user);
   });
 
+  console.log('callbackURL', lConf.protocol + "://" + lConf.host + "/auth/example-oauth2orize/callback");
+
   passport.use(new ExampleStrategy({
       // see https://github.com/jaredhanson/oauth2orize/blob/master/examples/all-grants/db/clients.js
       clientID: opts.clientId
@@ -46,6 +48,7 @@
     , callbackURL: lConf.protocol + "://" + lConf.host + "/auth/example-oauth2orize/callback"
     }
   , function (accessToken, refreshToken, profile, done) {
+      console.log('passport cb');
       User.findOrCreate({ profile: profile }, function (err, user) {
         user.accessToken = accessToken;
         return done(err, user);
@@ -86,8 +89,7 @@
     );
     rest.get('/auth/example-oauth2orize/callback'
     , function (req, res) {
-        console.log('req.session');
-        console.log(req.session);
+        console.log('req.session', req.session);
         var url = '/success.html' // + '?type=fb'
           /*
           + '&accessToken=' + req.session.passport.user.accessToken
