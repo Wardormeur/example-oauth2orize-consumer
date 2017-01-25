@@ -49,19 +49,19 @@ var util = require('util')
 function Strategy(options, verify) {
   var me = this
     ;
-
   options = options || {};
-  options.authorizationURL = 
-    options.authorizationURL || 
+  options.authorizationURL =
+    options.authorizationURL ||
     options.authorizationUrl ||
-    (pConf.protocol + '://' + pConf.host + '/dialog/authorize')
+    (pConf.protocol + '://' + pConf.host + '/dashboard/oauth/authorize')
     ;
   options.tokenURL =
     options.tokenURL ||
     options.tokenUrl ||
     (pConf.protocol + '://' + pConf.host + '/oauth/token')
     ;
-  
+  console.log(options);
+
   OAuth2Strategy.call(me, options, verify);
 
   // must be called after prototype is modified
@@ -101,7 +101,7 @@ Strategy.prototype.userProfile = function (accessToken, done) {
         ;
 
       if (err) { return done(new InternalOAuthError('failed to fetch user profile', err)); }
-      
+
       if ('string' === typeof body) {
         try { json = JSON.parse(body); }
         catch(e) { done(e); return; }

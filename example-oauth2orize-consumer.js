@@ -45,9 +45,10 @@ var util = require('util')
  */
 function Strategy(options, verify) {
   options = options || {};
-  options.authorizationURL = options.authorizationURL || (pConf.protocol + '://' + pConf.host + '/dialog/authorize');
+  options.authorizationURL = options.authorizationURL || (pConf.protocol + '://' + pConf.host + '/dashboard/oauth/authorize');
   options.tokenURL = options.tokenURL || (pConf.protocol + '://' + pConf.host + '/oauth/token');
-  
+  console.log(options);
+
   OAuth2Strategy.call(this, options, verify);
   this.name = 'example-oauth2orize';
 }
@@ -75,7 +76,7 @@ util.inherits(Strategy, OAuth2Strategy);
 Strategy.prototype.userProfile = function(accessToken, done) {
   this._oauth2.get(pConf.protocol + '://' + pConf.host + '/api/userinfo', accessToken, function (err, body/*, res*/) {
     if (err) { return done(new InternalOAuthError('failed to fetch user profile', err)); }
-    
+
     try {
       var json = JSON.parse(body)
         , profile = { provider: 'example-oauth2orize' }
@@ -88,11 +89,11 @@ Strategy.prototype.userProfile = function(accessToken, done) {
       profile.name = { familyName: json.identity.last_name,
                        givenName: json.identity.first_name };
       profile.emails = [{ value: json.identity.email_address }];
-      
+
       profile._raw = body;
       */
       profile._json = json;
-      
+
       done(null, profile);
     } catch(e) {
       done(e);

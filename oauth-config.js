@@ -3,7 +3,7 @@
 module.exports = {
 	provider: {
 		protocol: "http",
-		host: "localhost:3000",
+		host: "localhost:8000",
 		profileUrl: "/api/userinfo"
 	},
 	consumer: {
