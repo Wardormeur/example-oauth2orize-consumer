@@ -4,7 +4,7 @@ module.exports = {
 	provider: {
 		protocol: "http",
 		host: "localhost:8000",
-		profileUrl: "/api/userinfo"
+		profileUrl: "/api/3.0/oauth/profile"
 	},
 	consumer: {
 		protocol: "http",

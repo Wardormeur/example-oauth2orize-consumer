@@ -58,7 +58,7 @@ function Strategy(options, verify) {
   options.tokenURL =
     options.tokenURL ||
     options.tokenUrl ||
-    (pConf.protocol + '://' + pConf.host + '/oauth/token')
+    (pConf.protocol + '://' + pConf.host + '/api/3.0/oauth/token')
     ;
   console.log(options);
 
@@ -91,17 +91,17 @@ util.inherits(Strategy, OAuth2Strategy);
 Strategy.prototype.userProfile = function (accessToken, done) {
   var me = this
     ;
-
+console.log('userProfile::1');
   me._oauth2.get(
     pConf.protocol + '://' + pConf.host + pConf.profileUrl
   , accessToken
-  , function (err, body/*, res*/) {
+  , function (err, body, res) {
       var json
         , profile
         ;
 
       if (err) { return done(new InternalOAuthError('failed to fetch user profile', err)); }
-
+      console.log('userProfile::2', body || 'empty body');
       if ('string' === typeof body) {
         try { json = JSON.parse(body); }
         catch(e) { done(e); return; }

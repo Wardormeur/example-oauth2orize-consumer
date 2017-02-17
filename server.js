@@ -50,6 +50,7 @@
   , function (accessToken, refreshToken, profile, done) {
       console.log('passport cb');
       User.findOrCreate({ profile: profile }, function (err, user) {
+        console.log('findOrCreate Profile', accessToken);
         user.accessToken = accessToken;
         return done(err, user);
       });
@@ -62,7 +63,7 @@
       if (false) { next(); }
       var request = require('request')
         , options = {
-            url: pConf.protocol + '://' + pConf.host + '/api/exampleauth/me'
+            url: pConf.protocol + '://' + pConf.host + '/api/3.0/oauth/me'
           , headers: {
               'Authorization': 'Bearer ' + req.user.accessToken
             }

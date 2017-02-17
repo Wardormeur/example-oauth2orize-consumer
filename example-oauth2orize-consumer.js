@@ -46,7 +46,7 @@ var util = require('util')
 function Strategy(options, verify) {
   options = options || {};
   options.authorizationURL = options.authorizationURL || (pConf.protocol + '://' + pConf.host + '/dashboard/oauth/authorize');
-  options.tokenURL = options.tokenURL || (pConf.protocol + '://' + pConf.host + '/oauth/token');
+  options.tokenURL = options.tokenURL || (pConf.protocol + '://' + pConf.host + '/api/3.0/oauth/token');
   console.log(options);
 
   OAuth2Strategy.call(this, options, verify);
@@ -74,7 +74,8 @@ util.inherits(Strategy, OAuth2Strategy);
  * @api protected
  */
 Strategy.prototype.userProfile = function(accessToken, done) {
-  this._oauth2.get(pConf.protocol + '://' + pConf.host + '/api/userinfo', accessToken, function (err, body/*, res*/) {
+  console.log('Loading user profile', accessToken);
+  this._oauth2.get(pConf.protocol + '://' + pConf.host + '/oauth/profile', accessToken, function (err, body/*, res*/) {
     if (err) { return done(new InternalOAuthError('failed to fetch user profile', err)); }
 
     try {
